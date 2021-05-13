@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 const Button = ({value, className, onClick}) => {
   return (
-    <div className={`button ${className}`} onClick={() => onClick(value)}><button>{value}</button></div>
+    <div className={`button ${className || ""}`} onClick={() => onClick(value)}><button>{value}</button></div>
   )
 }
 
@@ -105,7 +105,6 @@ function App() {
 
       case "=":
         const expression = result + displayNumber;
-        console.log(expression);
         setDisplayNumber(eval(expression).toString())
         setResult(null)
         break;
