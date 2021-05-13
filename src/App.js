@@ -114,9 +114,6 @@ function App() {
         setDisplayNumber((current) => current === 0 || isWaiting ? (setIsWaiting(false), value) : `${current}${value}`);
         break;
     }
-
-    
-
   } 
 
   return (
