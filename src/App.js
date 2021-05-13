@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 
@@ -54,12 +53,77 @@ const Display = ({text}) => {
 }
 
 function App() {
-const [text, setText] = useState(0)
+  const [displayNumber, setDisplayNumber] = useState(0);
+  const [isWaiting, setIsWaiting] = useState(false);
+  const [result, setResult] = useState();
+
+  const handleDot = (value) => {
+    if(!displayNumber.includes(".")){
+      setDisplayNumber((current) => `${current}${value}`);
+    }
+  }
+  
+  const handleClick = (value) => {
+    switch (value) {
+      case "AC":
+        setDisplayNumber(0);
+        setIsWaiting(false);
+        setResult();
+        break;
+    
+      case "+/-":
+        setDisplayNumber((current) => -current);
+        break;
+
+      case "%":
+        setDisplayNumber((current) => current/100);
+        break;
+      
+      case ".":
+        handleDot(value)
+        break;
+
+      case "x":
+        setIsWaiting(true)
+        setResult((current) => current ? current + displayNumber + '*' : displayNumber + '*')
+        break;
+      
+      case "÷":
+        setIsWaiting(true)
+        setResult((current) => current ? current + displayNumber + '/' : displayNumber + '/')
+        break;
+
+      case "+":
+        setIsWaiting(true)
+        setResult((current) => current ? current + displayNumber + '+' : displayNumber + '+')
+        break;
+      
+      case "-":
+        setIsWaiting(true)
+        setResult((current) => current ? current + displayNumber + '-' : displayNumber + '-')
+        break;
+
+      case "=":
+        const expression = result + displayNumber;
+        console.log(expression);
+        setDisplayNumber(eval(expression).toString())
+        setResult(null)
+        break;
+
+      default:
+        setDisplayNumber((current) => current === 0 || isWaiting ? (setIsWaiting(false), value) : `${current}${value}`);
+        break;
+    }
+
+    
+
+  } 
+
   return (
     <div id="root">
         <div className="app">
-            <Display text={text}/>
-            <Panel onClick={(value) => setText(value)}/>
+            <Display text={displayNumber}/>
+            <Panel onClick={handleClick}/>
         </div>
     </div>
   );
